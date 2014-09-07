@@ -1,0 +1,126 @@
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b {
+  background-color: transparent;
+  background-image: none;
+  min-width: 360px;
+  min-height: 237px;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b > #alignmentBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Dynamic_Panel_11 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Panel_2 {
+  width: 360px;
+  height: 237px;
+  background-color: #282828;
+  background-image: none;
+  box-shadow: none;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Panel_2 .verticalalign {
+  vertical-align: top;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_25 {
+  padding-bottom: 5px;
+  padding-left: 6px;
+  width: 354px;
+  height: 28px;
+  background-color: transparent;
+  background-image: none;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: #BABABA;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  text-shadow: none;
+  color: #999999;
+  text-align: center;
+  text-decoration: none;
+  font-family: Arial,Arial;
+  font-size: 10pt;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 10pt;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_25 .valign {
+  vertical-align: bottom;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_26 {
+  padding-left: 20px;
+  width: 340px;
+  height: 47px;
+  background-color: transparent;
+  background-image: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #444444;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  text-shadow: none;
+  color: #FFFFFF;
+  text-align: left;
+  text-decoration: none;
+  font-family: Arial,Arial;
+  font-size: 14pt;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14pt;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_26 .valign {
+  vertical-align: middle;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_27 {
+  padding-left: 20px;
+  width: 340px;
+  height: 47px;
+  background-color: transparent;
+  background-image: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #444444;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  text-shadow: none;
+  color: #FFFFFF;
+  text-align: left;
+  text-decoration: none;
+  font-family: Arial,Arial;
+  font-size: 14pt;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14pt;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Label_27 .valign {
+  vertical-align: middle;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b #s-Image_2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 32px;
+  height: 32px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+}
+.ui-page {
+  overflow-x: hidden;
+}
+#s-f203da09-5398-47c0-b0e6-5c2c901edb4b > #loadMark {
+  width: 1px;
+  visibility: hidden;
+  display: none;
+}

@@ -1,0 +1,89 @@
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 {
+  background-color: transparent;
+  background-image: none;
+  min-width: 360px;
+  min-height: 167px;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 > #alignmentBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Image_2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 32px;
+  height: 32px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  z-index: 100;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Label_1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 360px;
+  height: 30px;
+  background-color: transparent;
+  background-image: none;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  text-shadow: none;
+  color: #808080;
+  text-align: center;
+  text-decoration: none;
+  font-family: Roboto-Regular,Arial;
+  font-size: 11pt;
+  line-height: 11pt;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Label_1 .valign {
+  vertical-align: middle;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Rich_text_1 {
+  position: absolute;
+  top: 52px;
+  left: 0px;
+  width: 350px;
+  height: 115px;
+  background-color: transparent;
+  background-image: none;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  box-shadow: none;
+  text-shadow: none;
+  font-size: 11pt;
+  font-family: Roboto-Regular,Arial;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Rich_text_1 .valign {
+  vertical-align: middle;
+  text-align: center;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Rich_text_1 span {
+  color: #808080;
+  text-align: center;
+  text-decoration: none;
+  font-family: Roboto-Regular,Arial;
+  font-size: 11pt;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 #s-Rich_text_1 span#rtr-s-Rich_text_1_0 {
+  color: #808080;
+  text-align: center;
+  text-decoration: none;
+  font-family: Roboto-Regular,Arial;
+  font-size: 11pt;
+  line-height: 0px;
+}
+.ui-page {
+  overflow-x: hidden;
+}
+#s-d7c977bf-77b2-4f93-92ad-61142e1b5619 > #loadMark {
+  width: 1px;
+  visibility: hidden;
+  display: none;
+}
