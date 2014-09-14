@@ -3,6 +3,8 @@ package ru.andr.SuperFreeFlow;
 
 import android.content.Context;
 import android.graphics.*;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +25,8 @@ public class Board extends View {
     private Paint m_paintGrid  = new Paint();
     private Paint m_paintPath  = new Paint();
     private Path m_path = new Path();
+    ShapeDrawable m_shape = new ShapeDrawable(new OvalShape());
+    private String level1 = "r.b..g..r........y..yg..b";
 
     private Cellpath m_cellPath = new Cellpath();
 
@@ -82,6 +86,26 @@ public class Board extends View {
                 int y = rowToY( r );
                 m_rect.set(x, y, x + m_cellWidth, y + m_cellHeight);
                 canvas.drawRect( m_rect, m_paintGrid );
+
+                m_shape.setBounds(m_rect);
+                char ch = getBoard(c, r);
+
+                if (ch == 'b') {
+                    m_shape.getPaint().setColor(Color.BLUE);
+                    m_shape.draw(canvas);
+                } else if (ch == 'r') {
+                    m_shape.getPaint().setColor(Color.RED);
+                    m_shape.draw(canvas);
+                } else if (ch == 'y') {
+                    m_shape.getPaint().setColor(Color.YELLOW);
+                    m_shape.draw(canvas);
+                } else if (ch == 'g') {
+                    m_shape.getPaint().setColor(Color.GREEN);
+                    m_shape.draw(canvas);
+                }
+
+
+
             }
         }
         m_path.reset();
@@ -118,8 +142,26 @@ public class Board extends View {
         if ( event.getAction() == MotionEvent.ACTION_DOWN ) {
             //m_path.reset();
             //m_path.moveTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
-            m_cellPath.reset();
-            m_cellPath.append( new Coordinate(c,r) );
+
+            char ch = getBoard(c, r);
+
+            if (ch == 'b') {
+                m_paintPath.setColor(Color.BLUE);
+                m_cellPath.reset();
+                m_cellPath.append( new Coordinate(c,r) );
+            } else if (ch == 'r') {
+                m_paintPath.setColor(Color.RED);
+                m_cellPath.reset();
+                m_cellPath.append( new Coordinate(c,r) );
+            } else if (ch == 'y') {
+                m_paintPath.setColor(Color.YELLOW);
+                m_cellPath.reset();
+                m_cellPath.append( new Coordinate(c,r) );
+            } else if (ch == 'g') {
+                m_paintPath.setColor(Color.GREEN);
+                m_cellPath.reset();
+                m_cellPath.append( new Coordinate(c,r) );
+            }
         }
         else if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
@@ -138,5 +180,9 @@ public class Board extends View {
     public void setColor( int color ) {
         m_paintPath.setColor( color );
         invalidate();
+    }
+
+    public char getBoard(int col, int row) {
+        return level1.charAt(col + row * NUM_CELLS);
     }
 }
