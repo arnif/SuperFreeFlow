@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,8 @@ public class Board extends View {
     private String level1 = "r.b..g..r........y..yg..b";
 
     private Cellpath m_cellPath = new Cellpath();
+
+    private ArrayList<Cellpath> cellpathArrayList = new ArrayList<Cellpath>();
 
     private int xToCol( int x ) {
         return (x - getPaddingLeft()) / m_cellWidth;
@@ -104,21 +107,26 @@ public class Board extends View {
                     m_shape.draw(canvas);
                 }
 
-
-
             }
         }
         m_path.reset();
-        if ( !m_cellPath.isEmpty() ) {
-            List<Coordinate> colist = m_cellPath.getCoordinates();
-            Coordinate co = colist.get( 0 );
-            m_path.moveTo( colToX(co.getCol()) + m_cellWidth / 2,
-                    rowToY(co.getRow()) + m_cellHeight / 2 );
-            for ( int i=1; i<colist.size(); ++i ) {
-                co = colist.get(i);
-                m_path.lineTo( colToX(co.getCol()) + m_cellWidth / 2,
-                        rowToY(co.getRow()) + m_cellHeight / 2 );
+
+        if ( !cellpathArrayList.isEmpty() ) {
+
+            for (Cellpath cellpath : cellpathArrayList) {
+
+                List<Coordinate> colist = cellpath.getCoordinates();
+                Coordinate co = colist.get(0);
+                m_path.moveTo(colToX(co.getCol()) + m_cellWidth / 2,
+                        rowToY(co.getRow()) + m_cellHeight / 2);
+
+                for (Coordinate aColist : colist) {
+                    co = aColist;
+                    m_path.lineTo(colToX(co.getCol()) + m_cellWidth / 2,
+                            rowToY(co.getRow()) + m_cellHeight / 2);
+                }
             }
+
         }
         canvas.drawPath( m_path, m_paintPath);
     }
@@ -143,36 +151,50 @@ public class Board extends View {
             //m_path.reset();
             //m_path.moveTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
 
+
             char ch = getBoard(c, r);
 
             if (ch == 'b') {
+                m_cellPath = new Cellpath();
                 m_paintPath.setColor(Color.BLUE);
-                m_cellPath.reset();
+
                 m_cellPath.append( new Coordinate(c,r) );
             } else if (ch == 'r') {
+                m_cellPath = new Cellpath();
                 m_paintPath.setColor(Color.RED);
-                m_cellPath.reset();
+
                 m_cellPath.append( new Coordinate(c,r) );
             } else if (ch == 'y') {
+                m_cellPath = new Cellpath();
                 m_paintPath.setColor(Color.YELLOW);
-                m_cellPath.reset();
+
                 m_cellPath.append( new Coordinate(c,r) );
             } else if (ch == 'g') {
+                m_cellPath = new Cellpath();
                 m_paintPath.setColor(Color.GREEN);
-                m_cellPath.reset();
+
                 m_cellPath.append( new Coordinate(c,r) );
             }
         }
         else if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
+
+
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
             if ( !m_cellPath.isEmpty() ) {
                 List<Coordinate> coordinateList = m_cellPath.getCoordinates();
                 Coordinate last = coordinateList.get(coordinateList.size()-1);
                 if ( areNeighbours(last.getCol(),last.getRow(), c, r)) {
                     m_cellPath.append(new Coordinate(c, r));
+
                     invalidate();
                 }
             }
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            System.out.println("Finger off!");
+            //save current board.
+            m_cellPath.setColor(m_paintPath.getColor());
+            cellpathArrayList.add(m_cellPath);
+
         }
         return true;
     }

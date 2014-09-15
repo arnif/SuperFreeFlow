@@ -9,6 +9,8 @@ import java.util.List;
 public class Cellpath {
 
     private ArrayList<Coordinate> m_path = new ArrayList<Coordinate>();
+    private int m_color;
+
 
     public void append( Coordinate co ) {
         int idx = m_path.indexOf(  co );
@@ -24,6 +26,14 @@ public class Cellpath {
 
     public List<Coordinate> getCoordinates() {
         return m_path;
+    }
+
+    public void setColor(int color) {
+        m_color = color;
+    }
+
+    public int getColor() {
+        return m_color;
     }
 
     public void reset() {
