@@ -8,9 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
-/**
- * Created by yngvi on 8.9.2014.
- */
+
 public class PlayActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,6 +16,13 @@ public class PlayActivity extends Activity {
         setContentView(R.layout.play);
 
         SharedPreferences settings = getSharedPreferences( "ColorPref", MODE_PRIVATE );
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            String puzzleFlow = extras.getString("puzzleFlows");
+            System.out.println(puzzleFlow);
+        }
 
         int color = settings.getInt( "pathColor", Color.CYAN );
         Board board = (Board) findViewById( R.id.board );

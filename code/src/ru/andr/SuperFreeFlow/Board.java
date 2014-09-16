@@ -190,7 +190,6 @@ public class Board extends View {
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            System.out.println("Finger off!");
             //save current board.
             m_cellPath.setColor(m_paintPath.getColor());
             cellpathArrayList.add(m_cellPath);

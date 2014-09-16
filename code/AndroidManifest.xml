@@ -14,5 +14,7 @@
         </activity>
         <activity android:name=".PlayActivity"/>
         <activity android:name=".ColorListActivity" android:label="Colors"/>
+        <activity android:name=".ArcadeSelectBoardActivity"/>
+        <activity android:name=".LevelOverviewActivity"/>
     </application>
 </manifest>
