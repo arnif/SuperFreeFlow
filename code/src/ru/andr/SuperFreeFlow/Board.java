@@ -18,9 +18,10 @@ import java.util.List;
 
 public class Board extends View {
 
-    private final int NUM_CELLS = 5;
+    private int NUM_CELLS;
     private int m_cellWidth;
     private int m_cellHeight;
+    private String m_flows;
 
     private Rect m_rect = new Rect();
     private Paint m_paintGrid  = new Paint();
@@ -178,7 +179,6 @@ public class Board extends View {
         }
         else if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
 
-
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
             if ( !m_cellPath.isEmpty() ) {
                 List<Coordinate> coordinateList = m_cellPath.getCoordinates();
@@ -201,6 +201,14 @@ public class Board extends View {
     public void setColor( int color ) {
         m_paintPath.setColor( color );
         invalidate();
+    }
+
+    public void setFlow(String flows) {
+        m_flows = flows;
+    }
+
+    public void setBoardSize(int size) {
+        NUM_CELLS = size;
     }
 
     public char getBoard(int col, int row) {

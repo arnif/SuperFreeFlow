@@ -76,6 +76,7 @@ public class LevelOverviewActivity extends Activity {
                 //System.out.println(mGlobals.mPuzzles.get(arg2).getFlows());
                 Intent i = new Intent(getBaseContext(), PlayActivity.class);
                 i.putExtra("puzzleFlows", mGlobals.mPuzzles.get(arg2).getFlows());
+                i.putExtra("puzzleSize", mGlobals.mPuzzles.get(arg2).getSize());
                 startActivity(i);
 
             }
