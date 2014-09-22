@@ -29,6 +29,7 @@ public class PlayActivity extends Activity {
             System.out.println(puzzleFlow);
             board.setBoardSize(puzzleSize);
             board.setFlow(puzzleFlow);
+            board.createLevel();
         }
     }
 }

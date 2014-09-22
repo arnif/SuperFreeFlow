@@ -29,6 +29,9 @@ public class Board extends View {
     private Path m_path = new Path();
     ShapeDrawable m_shape = new ShapeDrawable(new OvalShape());
     private String level1 = "r.b..g..r........y..yg..b";
+    private Character[] colors = {'r', 'b', 'y', 'g', 'c', 'm' };
+
+    private int current_color = Color.BLACK;
 
     private Cellpath m_cellPath = new Cellpath();
 
@@ -106,30 +109,61 @@ public class Board extends View {
                 } else if (ch == 'g') {
                     m_shape.getPaint().setColor(Color.GREEN);
                     m_shape.draw(canvas);
+                }  else if (ch == 'c') {
+                    m_shape.getPaint().setColor(Color.CYAN);
+                    m_shape.draw(canvas);
+                }
+                else if (ch == 'm') {
+                    m_shape.getPaint().setColor(Color.MAGENTA);
+                    m_shape.draw(canvas);
                 }
 
             }
         }
-        m_path.reset();
 
-        if ( !cellpathArrayList.isEmpty() ) {
+
+        /*
+        if ( !m_cellPath.isEmpty() ) {
+
+            List<Coordinate> colist = m_cellPath.getCoordinates();
+            Coordinate co = colist.get( 0 );
+            m_path.moveTo( colToX(co.getCol()) + m_cellWidth / 2,
+                    rowToY(co.getRow()) + m_cellHeight / 2 );
+            for ( int i=1; i<colist.size(); ++i ) {
+                co = colist.get(i);
+                m_path.lineTo( colToX(co.getCol()) + m_cellWidth / 2,
+                        rowToY(co.getRow()) + m_cellHeight / 2 );
+            }
+            canvas.drawPath( m_path, m_paintPath);
+        }
+        */
+
+        if (!cellpathArrayList.isEmpty()) {
 
             for (Cellpath cellpath : cellpathArrayList) {
 
                 List<Coordinate> colist = cellpath.getCoordinates();
                 Coordinate co = colist.get(0);
+                int litur = co.getColor();
+                m_paintPath.setColor(litur);
+
                 m_path.moveTo(colToX(co.getCol()) + m_cellWidth / 2,
                         rowToY(co.getRow()) + m_cellHeight / 2);
 
                 for (Coordinate aColist : colist) {
+
                     co = aColist;
+
                     m_path.lineTo(colToX(co.getCol()) + m_cellWidth / 2,
                             rowToY(co.getRow()) + m_cellHeight / 2);
                 }
+                canvas.drawPath( m_path, m_paintPath);
+                m_path.reset();
             }
 
         }
-        canvas.drawPath( m_path, m_paintPath);
+
+
     }
 
     private boolean areNeighbours( int c1, int r1, int c2, int r2 ) {
@@ -157,42 +191,73 @@ public class Board extends View {
 
             if (ch == 'b') {
                 m_cellPath = new Cellpath();
-                m_paintPath.setColor(Color.BLUE);
 
-                m_cellPath.append( new Coordinate(c,r) );
+                current_color = Color.BLUE;
+                m_cellPath.append( new Coordinate(c,r, current_color) );
             } else if (ch == 'r') {
                 m_cellPath = new Cellpath();
-                m_paintPath.setColor(Color.RED);
 
-                m_cellPath.append( new Coordinate(c,r) );
+                current_color = Color.RED;
+                m_cellPath.append( new Coordinate(c,r, current_color) );
             } else if (ch == 'y') {
                 m_cellPath = new Cellpath();
-                m_paintPath.setColor(Color.YELLOW);
 
-                m_cellPath.append( new Coordinate(c,r) );
+                current_color = Color.YELLOW;
+
+                m_cellPath.append( new Coordinate(c,r, current_color) );
             } else if (ch == 'g') {
                 m_cellPath = new Cellpath();
-                m_paintPath.setColor(Color.GREEN);
 
-                m_cellPath.append( new Coordinate(c,r) );
+                current_color = Color.GREEN;
+
+                m_cellPath.append( new Coordinate(c,r, current_color) );
+            } else if (ch == 'm') {
+                m_cellPath = new Cellpath();
+
+                current_color = Color.MAGENTA;
+
+                m_cellPath.append( new Coordinate(c,r, current_color) );
+            } else if (ch == 'c') {
+                m_cellPath = new Cellpath();
+
+                current_color = Color.CYAN;
+
+                m_cellPath.append( new Coordinate(c,r, current_color) );
             }
         }
         else if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
 
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
+
+
             if ( !m_cellPath.isEmpty() ) {
+
+                char ch = getBoard(c, r);
+
+                if (ch == '.') {
+                    //free space place X but we still need to remove X from string also how ???
+                } else {
+                    // check if the finger is at some color shape if so check if that shape has same color as the line
+                    // otherwise draw the line
+                    // check for win checks if the string has any x in it after connecting line to same color dot
+                }
+
                 List<Coordinate> coordinateList = m_cellPath.getCoordinates();
                 Coordinate last = coordinateList.get(coordinateList.size()-1);
-                if ( areNeighbours(last.getCol(),last.getRow(), c, r)) {
-                    m_cellPath.append(new Coordinate(c, r));
 
+                if ( areNeighbours(last.getCol(),last.getRow(), c, r)) {
+                    System.out.println(last.getColor());
+
+                    m_cellPath.append(new Coordinate(c, r, current_color));
+
+                    cellpathArrayList.add(m_cellPath);
                     invalidate();
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             //save current board.
-            m_cellPath.setColor(m_paintPath.getColor());
-            cellpathArrayList.add(m_cellPath);
+            m_cellPath.setColor(current_color);
+            //cellpathArrayList.add(m_cellPath);
 
         }
         return true;
@@ -213,5 +278,49 @@ public class Board extends View {
 
     public char getBoard(int col, int row) {
         return level1.charAt(col + row * NUM_CELLS);
+    }
+
+    public void getColorAtCoord(int col, int row) {
+
+    }
+
+
+    public void createLevel() {
+
+        StringBuilder level = new StringBuilder();
+        level.setLength(NUM_CELLS * NUM_CELLS);
+        int cCount = 0;
+
+        for (int j = 0; j < NUM_CELLS * NUM_CELLS; j++) {
+            level.setCharAt(j, '.');
+        }
+
+        for(int i = 0; i < m_flows.length(); i++) {
+
+            if (m_flows.charAt(i) == '(') {
+                char x1 = m_flows.charAt(i + 1);
+                char y1 = m_flows.charAt(i + 3);
+
+                char x2 = m_flows.charAt(i + 5);
+                char y2 = m_flows.charAt(i + 7);
+
+                int placeInString_1 = Character.getNumericValue(y1) + Character.getNumericValue(x1) * NUM_CELLS;
+                int placeInString_2 = Character.getNumericValue(y2) + Character.getNumericValue(x2) * NUM_CELLS;
+
+                for (int k = 0; k < level.length(); k++) {
+                    if (k == placeInString_1) {
+                        level.setCharAt(k, colors[cCount]);
+                    }
+                    if (k == placeInString_2) {
+                        level.setCharAt(k, colors[cCount]);
+                    }
+                }
+                cCount++;
+
+            }
+        }
+
+        level1 = level.toString();
+
     }
 }
