@@ -28,7 +28,8 @@ public class Board extends View {
     private Paint m_paintPath  = new Paint();
     private Path m_path = new Path();
     ShapeDrawable m_shape = new ShapeDrawable(new OvalShape());
-    private String level1 = "r.b..g..r........y..yg..b";
+    private StringBuilder level = new StringBuilder();
+    //private String level1 = "r.b..g..r........y..yg..b";
     private Character[] colors = {'r', 'b', 'y', 'g', 'c', 'm' };
 
     private int current_color = Color.BLACK;
@@ -277,7 +278,7 @@ public class Board extends View {
     }
 
     public char getBoard(int col, int row) {
-        return level1.charAt(col + row * NUM_CELLS);
+        return level.toString().charAt(col + row * NUM_CELLS);
     }
 
     public void getColorAtCoord(int col, int row) {
@@ -287,7 +288,7 @@ public class Board extends View {
 
     public void createLevel() {
 
-        StringBuilder level = new StringBuilder();
+
         level.setLength(NUM_CELLS * NUM_CELLS);
         int cCount = 0;
 
@@ -319,8 +320,6 @@ public class Board extends View {
 
             }
         }
-
-        level1 = level.toString();
 
     }
 }
