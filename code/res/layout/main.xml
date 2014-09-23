@@ -9,6 +9,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Super Free Flow"
+            android:layout_marginTop="10dp"
             android:textSize="34dp"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal"

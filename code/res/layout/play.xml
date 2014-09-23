@@ -10,6 +10,8 @@
               android:id="@+id/levelId"
               android:text="Level 1"
               android:gravity="center"
+              android:layout_marginBottom="10dp"
+              android:layout_marginTop="10dp"
             />
     <ru.andr.SuperFreeFlow.Board
             android:id="@+id/board"
