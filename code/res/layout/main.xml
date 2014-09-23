@@ -3,7 +3,19 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-        >
+              android:weightSum="1">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Super Free Flow"
+            android:textSize="30dp"
+            android:id="@+id/textView" android:layout_gravity="center_horizontal"
+            android:phoneNumber="true" android:singleLine="false"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView" android:layout_gravity="center_horizontal" android:src="@drawable/test"/>
     <Button android:id="@+id/button_play"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
