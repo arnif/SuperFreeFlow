@@ -2,12 +2,16 @@ package ru.andr.SuperFreeFlow;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.*;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +39,13 @@ public class Board extends View {
     private int[] colors = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA };
     private ArrayList<Coordinate> theLevel = new ArrayList<Coordinate>();
 
+    private Context mContext;
+    private Vibrator v;
+
+    private int levelId;
+
+    private Global mGlobals = Global.getInstance();
+
     private int current_color = Color.BLACK;
 
     private Cellpath m_cellPath = new Cellpath();
@@ -60,6 +71,8 @@ public class Board extends View {
     public Board(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        mContext = context;
+
         m_paintGrid.setStyle( Paint.Style.STROKE );
         m_paintGrid.setColor( Color.GRAY );
 
@@ -70,6 +83,10 @@ public class Board extends View {
         m_paintPath.setStrokeJoin( Paint.Join.ROUND );
         m_paintPath.setAntiAlias( true );
         flowCount = 0;
+
+        v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
+
     }
 
     @Override
@@ -235,6 +252,8 @@ public class Board extends View {
 
             boolean dontConnect = false;
 
+            v.vibrate(10);
+
             if (cellpathArrayList.length < 0) {
                 return true;
             }
@@ -260,6 +279,9 @@ public class Board extends View {
                                     dontConnect = false;
                                     co.setDot(true);
                                     co.setIsConnected(true);
+
+
+                                    v.vibrate(500);
                                 }
                             }
 
@@ -287,9 +309,48 @@ public class Board extends View {
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (checkWin()) {
-
+                v.vibrate(1000);
                 System.out.println("YOU WON!!!!!!");
                 Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
+                //create nextLevel button
+                final Button nextLevelBtn = (Button) getRootView().findViewById(R.id.nextLevelBtn);
+                nextLevelBtn.setVisibility(View.VISIBLE);
+                if (mGlobals.mPuzzles.size() == getLevelId() + 1) {
+                    System.out.println("your done!");
+                    nextLevelBtn.setText("Done, go home");
+                }
+                nextLevelBtn.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        System.out.println("nr of puzzles " + mGlobals.mPuzzles.size());
+                        System.out.println("level ID " + getLevelId());
+
+                        if (mGlobals.mPuzzles.size() > getLevelId() + 1) {
+                            Intent i = new Intent();
+                            i.setClass(mContext, PlayActivity.class);
+
+                            String flows = mGlobals.mPuzzles.get(getLevelId() + 1).getFlows();
+                            String size = mGlobals.mPuzzles.get(getLevelId() + 1).getSize();
+
+                            i.putExtra("puzzleFlows", flows);
+                            i.putExtra("puzzleSize", size);
+                            i.putExtra("levelId", getLevelId() +1);
+                            mContext.startActivity(i);
+                        } else {
+
+
+                            Intent i = new Intent();
+                            i.setClass(mContext, MainActivity.class);
+                            mContext.startActivity(i);
+
+                        }
+
+
+                    }
+                });
+
             }
             //save current board.
             m_cellPath.setColor(current_color);
@@ -350,6 +411,7 @@ public class Board extends View {
 
     public void createLevel() {
 
+        flowCount = 0;
 
         level.setLength(NUM_CELLS * NUM_CELLS);
         int cCount = 0;
@@ -390,32 +452,46 @@ public class Board extends View {
 
         }
 
-
-
-
-
-
-
-
     }
 
     private boolean checkWin() {
-        int k = theLevel.size() / 2;
+        flowCount = theLevel.size() / 2;
         int totalCord = 0;
         for (Cellpath cellpath : cellpathArrayList) {
             for (Coordinate coordinate : cellpath.getCoordinates()) {
                 totalCord++;
                 if (coordinate.isConnected()) {
-                    k--;
-                    flowCount++;
+                    flowCount--;
                 }
             }
 
         }
-        System.out.println("k is " + k);
+        System.out.println("k is " + flowCount);
         System.out.println("total cord " + totalCord);
         System.out.println(NUM_CELLS * NUM_CELLS);
-        return k == 0 && totalCord == NUM_CELLS * NUM_CELLS;
+
+        TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
+        textView.setText("Flows: " + (theLevel.size()/2 - flowCount) + "/" + theLevel.size()/2);
+
+        return flowCount == 0 && totalCord == NUM_CELLS * NUM_CELLS;
     }
+
+    public void initTextView() {
+        System.out.println(theLevel.size());
+        TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
+        textView.setText("Flows: 0/" + theLevel.size() /2);
+
+        Button nextLevelBtn = (Button) getRootView().findViewById(R.id.nextLevelBtn);
+        nextLevelBtn.setVisibility(View.GONE);
+    }
+
+    public void setLevelId(int id) {
+        levelId = id;
+    }
+
+    public int getLevelId() {
+        return levelId;
+    }
+
 
 }

@@ -9,7 +9,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 
+
 public class PlayActivity extends Activity {
+
+    private int levelId;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +31,14 @@ public class PlayActivity extends Activity {
         if (extras != null) {
             String puzzleFlow = extras.getString("puzzleFlows");
             int puzzleSize = Integer.parseInt(extras.getString("puzzleSize"));
+            levelId = extras.getInt("levelId");
+            System.out.println("levelId " +levelId);
             System.out.println(puzzleFlow);
             board.setBoardSize(puzzleSize);
             board.setFlow(puzzleFlow);
+            board.setLevelId(levelId);
             board.createLevel();
+            board.initTextView();
         }
     }
 }
