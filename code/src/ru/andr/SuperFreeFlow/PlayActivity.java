@@ -12,11 +12,6 @@ import android.os.Bundle;
 
 public class PlayActivity extends Activity {
 
-    private int levelId;
-
-
-
-
     private Global mGlobals = Global.getInstance();
 
     @Override
@@ -42,8 +37,8 @@ public class PlayActivity extends Activity {
         if (extras != null) {
             String puzzleFlow = extras.getString("puzzleFlows");
             int puzzleSize = Integer.parseInt(extras.getString("puzzleSize"));
-            levelId = extras.getInt("levelId");
-            System.out.println("levelId " +levelId);
+            int levelId = extras.getInt("levelId");
+            System.out.println("levelId " + levelId);
             System.out.println(puzzleFlow);
             board.setBoardSize(puzzleSize);
             board.setFlow(puzzleFlow);

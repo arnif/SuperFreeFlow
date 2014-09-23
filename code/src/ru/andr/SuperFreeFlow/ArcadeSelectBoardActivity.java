@@ -80,8 +80,6 @@ public class ArcadeSelectBoardActivity extends Activity implements View.OnClickL
                     Element eNode = (Element) nNode;
                     String id = eNode.getAttribute("id");
                     String name = eNode.getAttribute("name");
-                    //String size = eNode.getElementsByTagName( "size" ).item(0).getFirstChild().getNodeValue();
-                    //String flow = eNode.getElementsByTagName( "flows" ).item(0).getFirstChild().getNodeValue();
                     challenges.add( new Challenges( id, name ) );
                 }
             }
