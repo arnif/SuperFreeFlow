@@ -24,20 +24,6 @@ public class Cellpath {
         }
     }
 
-    public void remove(Coordinate co) {
-        int idx = m_path.indexOf(co);
-        System.out.println("index " + idx);
-        if (idx >= 0) {
-            List<Coordinate> coList = new ArrayList<Coordinate>();
-            for (Coordinate coordinate : m_path) {
-                if (coordinate.getColor() == co.getColor()) {
-                    coList.add(coordinate);
-                }
-            }
-            m_path.removeAll(coList);
-        }
-    }
-
     public List<Coordinate> getCoordinates() {
         return m_path;
     }

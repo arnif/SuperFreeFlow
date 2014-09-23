@@ -19,4 +19,5 @@
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".AboutActivity" android:label="About"/>
     </application>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 </manifest>

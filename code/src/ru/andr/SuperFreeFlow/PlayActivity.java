@@ -9,8 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 
-public class PlayActivity extends Activity {
 
+public class PlayActivity extends Activity {
 
     private Global mGlobals = Global.getInstance();
 
@@ -37,10 +37,14 @@ public class PlayActivity extends Activity {
         if (extras != null) {
             String puzzleFlow = extras.getString("puzzleFlows");
             int puzzleSize = Integer.parseInt(extras.getString("puzzleSize"));
+            int levelId = extras.getInt("levelId");
+            System.out.println("levelId " + levelId);
             System.out.println(puzzleFlow);
             board.setBoardSize(puzzleSize);
             board.setFlow(puzzleFlow);
+            board.setLevelId(levelId);
             board.createLevel();
+            board.initTextView();
         }
     }
 }

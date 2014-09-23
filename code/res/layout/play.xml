@@ -10,8 +10,12 @@
             android:layout_height="wrap_content"
             android:background="#444444"
             />
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
               android:id="@+id/flowCount"
             />
+    <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Next Level"
+            android:id="@+id/nextLevelBtn" />
 </LinearLayout>
