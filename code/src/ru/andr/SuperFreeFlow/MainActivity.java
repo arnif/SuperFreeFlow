@@ -42,8 +42,8 @@ public class MainActivity extends Activity {
         if ( id == R.id.button_play ) {
             startActivity( new Intent( this, ArcadeSelectBoardActivity.class ) );
         }
-        else if ( id == R.id.button_color ) {
-            startActivity( new Intent( this, ColorListActivity.class ) );
+        else if ( id == R.id.button_settings ) {
+            startActivity( new Intent( this, SettingsActivity.class ) );
         }
     }
 

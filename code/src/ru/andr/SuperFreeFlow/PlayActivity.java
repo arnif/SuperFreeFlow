@@ -10,12 +10,23 @@ import android.os.Bundle;
 
 
 public class PlayActivity extends Activity {
+
+
+    private Global mGlobals = Global.getInstance();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play);
 
         SharedPreferences settings = getSharedPreferences( "ColorPref", MODE_PRIVATE );
+        SharedPreferences test = getSharedPreferences("Settings", MODE_PRIVATE);
+
+        mGlobals.isMuted = test.getBoolean("muteSettings", true);
+        mGlobals.isVibrate = test.getBoolean("vibrateSettings", true);
+
+        System.out.println("mute " + mGlobals.isMuted);
+        System.out.println("vib " + mGlobals.isVibrate);
 
         int color = settings.getInt( "pathColor", Color.CYAN );
         Board board = (Board) findViewById( R.id.board );

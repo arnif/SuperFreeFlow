@@ -2,9 +2,11 @@ package ru.andr.SuperFreeFlow;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.*;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +19,8 @@ import java.util.List;
  */
 
 public class Board extends View {
+
+    private Global mGlobals = Global.getInstance();
 
     private int NUM_CELLS;
     private int m_cellWidth;
@@ -39,6 +43,8 @@ public class Board extends View {
     private Cellpath m_cellPath = new Cellpath();
 
     private Cellpath[] cellpathArrayList;
+
+    private MediaPlayer mediaPlayer;
 
     private int xToCol( int x ) {
         return (x - getPaddingLeft()) / m_cellWidth;
@@ -90,6 +96,8 @@ public class Board extends View {
 
     @Override
     protected void onDraw( Canvas canvas ) {
+
+
 
         for ( int r=0; r<NUM_CELLS; ++r ) {
             for (int c = 0; c<NUM_CELLS; ++c) {
@@ -252,6 +260,8 @@ public class Board extends View {
                                     System.out.println("ITS THERE!!!");
                                     co.setDot(true);
                                     co.setIsConnected(true);
+                                    mediaPlayer = MediaPlayer.create(getContext(), R.raw.bloop);
+                                    mediaPlayer.start();
                                 }
                             }
 
@@ -278,6 +288,11 @@ public class Board extends View {
             if (checkWin()) {
 
                 System.out.println("YOU WON!!!!!!");
+
+                if(mGlobals.isMuted == true) {
+                    mediaPlayer = MediaPlayer.create(getContext(), R.raw.winning);
+                    mediaPlayer.start();
+                }
             }
             //save current board.
             m_cellPath.setColor(current_color);

@@ -53,7 +53,7 @@ public class ColorListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mList.add( new ColorElement(Color.GREEN, "Frog") );
+        mList.add( new ColorElement(1, "Mute") );
         mList.add( new ColorElement(Color.RED, "Strawberry") );
 
         ArrayAdapter<ColorElement> adapter = new ArrayAdapter<ColorElement>(
