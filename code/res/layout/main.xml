@@ -9,9 +9,10 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Super Free Flow"
-            android:textSize="30dp"
-            android:id="@+id/textView" android:layout_gravity="center_horizontal"
-            android:phoneNumber="true" android:singleLine="false"/>
+            android:textSize="34dp"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:singleLine="false"/>
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
