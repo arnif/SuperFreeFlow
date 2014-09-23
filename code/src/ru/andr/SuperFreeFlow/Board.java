@@ -36,7 +36,6 @@ public class Board extends View {
     private Path m_path = new Path();
     ShapeDrawable m_shape = new ShapeDrawable(new OvalShape());
     private StringBuilder level = new StringBuilder();
-    //private String level1 = "r.b..g..r........y..yg..b";
     private int[] colors = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA };
     private ArrayList<Coordinate> theLevel = new ArrayList<Coordinate>();
 
@@ -78,7 +77,6 @@ public class Board extends View {
 
         m_paintGrid.setStyle( Paint.Style.STROKE );
         m_paintGrid.setColor( Color.GRAY );
-
         m_paintPath.setStyle( Paint.Style.STROKE );
         m_paintPath.setColor(Color.GREEN);
         m_paintPath.setStrokeWidth(32);
@@ -88,8 +86,6 @@ public class Board extends View {
         flowCount = 0;
 
         v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-
-
     }
 
     @Override
@@ -112,15 +108,12 @@ public class Board extends View {
     @Override
     protected void onDraw( Canvas canvas ) {
 
-
-
         for ( int r=0; r<NUM_CELLS; ++r ) {
             for (int c = 0; c<NUM_CELLS; ++c) {
                 int x = colToX( c );
                 int y = rowToY( r );
                 m_rect.set(x, y, x + m_cellWidth, y + m_cellHeight);
                 canvas.drawRect( m_rect, m_paintGrid );
-
                 m_shape.setBounds(m_rect);
 
                 for (Coordinate coordinate : theLevel) {
@@ -129,12 +122,9 @@ public class Board extends View {
                         m_shape.draw(canvas);
                     }
                 }
-
             }
         }
-
         if (cellpathArrayList.length != 0) {
-
 
             for (int i = 0; i < cellpathArrayList.length; i++) {
                 if (!cellpathArrayList[i].isEmpty()) {
@@ -153,13 +143,8 @@ public class Board extends View {
                     canvas.drawPath( m_path, m_paintPath);
                     m_path.reset();
                 }
-
             }
-
-
         }
-
-
     }
 
     private boolean areNeighbours( int c1, int r1, int c2, int r2 ) {
@@ -180,12 +165,10 @@ public class Board extends View {
 
         if ( event.getAction() == MotionEvent.ACTION_DOWN ) {
 
-
             for (Coordinate coordinate : theLevel) {
 
                 if (c == coordinate.getCol() && r == coordinate.getRow()) {
                     if (coordinate.getIsDot()) {
-
                         current_color = coordinate.getColor();
                         Cellpath cellpath = cellpathArrayList[theLevel.indexOf(coordinate)];
                         cellpath.setColor(current_color);
@@ -193,70 +176,13 @@ public class Board extends View {
 
                     }
                 }
-
             }
-
-            Coordinate board = getBoard(c, r);
-
-           /*
-            if (board != null) {
-
-                if (board.getIsDot()) {
-                    System.out.println("ITS A DOT!");
-                    Coordinate other = null;
-                    boolean found = false;
-
-                    for (int i = 0; i < cellpathArrayList.length; i++) {
-                        if (cellpathArrayList[i].getCoordinates().get(0).getColor() == current_color) {
-                            for (Coordinate coordinate : theLevel) {
-                                if (coordinate.getColor() == current_color && !board.equals(coordinate)) {
-                                    System.out.println("1x max");
-                                    found = true;
-                                    other = new Coordinate(coordinate.getCol(), coordinate.getRow(), current_color);
-                                    other.setDot(true);
-                                    break;
-
-                                }
-                            }
-
-
-                            if(found) {
-                                cellpathArrayList[i].reset();
-
-                                cellpathArrayList[i] = new Cellpath();
-
-
-                                Coordinate tempCord = new Coordinate(c, r, current_color);
-                                tempCord.setDot(true);
-                                cellpathArrayList[i].append(tempCord);
-                                if (other != null) {
-                                    //cellpathArrayList[i].append(other);
-                                    System.out.println(other.getColor() + " " + other.getIsDot() + " " + other.getCol() + " " + other.getRow() );
-                                }
-
-                                invalidate();
-                                break;
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            */
-
-
-
-
-
-
         }
         else if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
 
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
 
             boolean dontConnect = false;
-
             v.vibrate(10);
 
             if (cellpathArrayList.length < 0) {
@@ -285,41 +211,28 @@ public class Board extends View {
                                     co.setDot(true);
                                     co.setIsConnected(true);
 
-
                                     v.vibrate(500);
                                     mediaPlayer = MediaPlayer.create(getContext(), R.raw.bloop);
                                     mediaPlayer.start();
                                 }
                             }
-
                             if (!dontConnect) {
-
                                 cellpathArrayList[i].append(co);
                                 cellpathArrayList[i].setColor(current_color);
 
-
                                 invalidate();
                             }
-
-
-
                         }
-
-
                     }
-
                 }
-
             }
-
-
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (checkWin()) {
                 v.vibrate(1000);
                 System.out.println("YOU WON!!!!!!");
 
-                if(mGlobals.isMuted == true) {
+                if(mGlobals.isMuted) {
                     mediaPlayer = MediaPlayer.create(getContext(), R.raw.winning);
                     mediaPlayer.start();
                 }
@@ -328,16 +241,12 @@ public class Board extends View {
                 final Button nextLevelBtn = (Button) getRootView().findViewById(R.id.nextLevelBtn);
                 nextLevelBtn.setVisibility(View.VISIBLE);
                 if (mGlobals.mPuzzles.size() == getLevelId() + 1) {
-                    System.out.println("your done!");
                     nextLevelBtn.setText("Done, go home");
                 }
                 nextLevelBtn.setOnClickListener(new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-
-                        System.out.println("nr of puzzles " + mGlobals.mPuzzles.size());
-                        System.out.println("level ID " + getLevelId());
 
                         if (mGlobals.mPuzzles.size() > getLevelId() + 1) {
                             Intent i = new Intent();
@@ -351,38 +260,17 @@ public class Board extends View {
                             i.putExtra("levelId", getLevelId() +1);
                             mContext.startActivity(i);
                         } else {
-
-
                             Intent i = new Intent();
                             i.setClass(mContext, MainActivity.class);
                             mContext.startActivity(i);
-
                         }
-
-
                     }
                 });
 
             }
-            //save current board.
             m_cellPath.setColor(current_color);
-            //cellpathArrayList.add(m_cellPath);
-
         }
-        //System.out.println(level.toString());
         return true;
-    }
-
-
-    private char getCharFromColor(int current_color) {
-        //private Character[] colors = {'r', 'b', 'y', 'g', 'c', 'm' };
-        if (current_color == Color.RED) { return 'R'; }
-        if (current_color == Color.BLUE) { return 'B'; }
-        if (current_color == Color.YELLOW) { return 'Y'; }
-        if (current_color == Color.GREEN) { return 'G'; }
-        if (current_color == Color.CYAN) { return 'C'; }
-        if (current_color == Color.MAGENTA) { return 'M'; }
-        return 0;
     }
 
     public void setColor( int color ) {
@@ -409,18 +297,6 @@ public class Board extends View {
         return null;
     }
 
-    public int getColorAtCoord(char c) {
-        //private Character[] colors = {'r', 'b', 'y', 'g', 'c', 'm' };
-        if (Character.toLowerCase(c) == 'r') { return Color.RED; }
-        if (Character.toLowerCase(c) == 'b') { return Color.BLUE; }
-        if (Character.toLowerCase(c) == 'y') { return Color.YELLOW; }
-        if (Character.toLowerCase(c) == 'g') { return Color.GREEN; }
-        if (Character.toLowerCase(c) == 'c') { return Color.CYAN; }
-        if (Character.toLowerCase(c) == 'm') { return Color.MAGENTA; }
-        return 0;
-    }
-
-
     public void createLevel() {
 
         flowCount = 0;
@@ -433,7 +309,6 @@ public class Board extends View {
         }
 
         for(int i = 0; i < m_flows.length(); i++) {
-
             if (m_flows.charAt(i) == '(') {
                 char x1 = m_flows.charAt(i + 1);
                 char y1 = m_flows.charAt(i + 3);
@@ -451,13 +326,10 @@ public class Board extends View {
                 theLevel.add(co2);
 
                 cCount++;
-
-
             }
         }
 
         cellpathArrayList = new Cellpath[cCount * 2];
-
 
         for (int j = 0; j < cCount * 2; j++) {
             cellpathArrayList[j] = new Cellpath();
@@ -485,7 +357,7 @@ public class Board extends View {
         TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
         textView.setText("Flows: " + (theLevel.size()/2 - flowCount) + "/" + theLevel.size()/2);
 
-        return flowCount == 0 && totalCord == NUM_CELLS * NUM_CELLS;
+        return flowCount == 0 && totalCord >= NUM_CELLS * NUM_CELLS;
     }
 
     public void initTextView() {
@@ -504,6 +376,4 @@ public class Board extends View {
     public int getLevelId() {
         return levelId;
     }
-
-
 }
