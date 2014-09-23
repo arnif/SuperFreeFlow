@@ -16,4 +16,10 @@
             android:text="Settings"
             android:onClick="buttonClick"
             />
+    <Button android:id="@+id/button_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:onClick="buttonClick"
+            />
 </LinearLayout>
