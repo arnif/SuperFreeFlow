@@ -28,8 +28,8 @@ public class Board extends View {
     private int m_cellWidth;
     private int m_cellHeight;
     private String m_flows;
-    private int flowCount = 0;
-
+    private int flowCount;
+    private int moveCounter;
     private Rect m_rect = new Rect();
     private Paint m_paintGrid  = new Paint();
     private Paint m_paintPath  = new Paint();
@@ -38,6 +38,7 @@ public class Board extends View {
     private StringBuilder level = new StringBuilder();
     private int[] colors = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA };
     private ArrayList<Coordinate> theLevel = new ArrayList<Coordinate>();
+    private double flowsPercent;
 
     private Context mContext;
     private Vibrator v;
@@ -52,7 +53,8 @@ public class Board extends View {
 
     private Cellpath[] cellpathArrayList;
 
-    private MediaPlayer mediaPlayer;
+    private final MediaPlayer mediaPlayerBloop = MediaPlayer.create(getContext(), R.raw.bloop);
+    private final MediaPlayer mediaPlayerWinning = MediaPlayer.create(getContext(), R.raw.winning);
 
     private int xToCol( int x ) {
         return (x - getPaddingLeft()) / m_cellWidth;
@@ -75,6 +77,7 @@ public class Board extends View {
 
         mContext = context;
 
+
         m_paintGrid.setStyle( Paint.Style.STROKE );
         m_paintGrid.setColor( Color.GRAY );
         m_paintPath.setStyle( Paint.Style.STROKE );
@@ -84,6 +87,8 @@ public class Board extends View {
         m_paintPath.setStrokeJoin( Paint.Join.ROUND );
         m_paintPath.setAntiAlias( true );
         flowCount = 0;
+        moveCounter = 0;
+        flowsPercent = 0;
 
         v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
     }
@@ -212,8 +217,8 @@ public class Board extends View {
                                     co.setIsConnected(true);
 
                                     v.vibrate(500);
-                                    mediaPlayer = MediaPlayer.create(getContext(), R.raw.bloop);
-                                    mediaPlayer.start();
+
+                                    mediaPlayerBloop.start();
                                 }
                             }
                             if (!dontConnect) {
@@ -228,13 +233,16 @@ public class Board extends View {
             }
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            moveCounter++;
+            TextView t = (TextView) getRootView().findViewById(R.id.moves);
+            t.setText("Moves: " + moveCounter);
             if (checkWin()) {
                 v.vibrate(1000);
                 System.out.println("YOU WON!!!!!!");
 
                 if(mGlobals.isMuted) {
-                    mediaPlayer = MediaPlayer.create(getContext(), R.raw.winning);
-                    mediaPlayer.start();
+
+                    mediaPlayerWinning.start();
                 }
                 Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
                 //create nextLevel button
@@ -356,6 +364,15 @@ public class Board extends View {
 
         TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
         textView.setText("Flows: " + (theLevel.size()/2 - flowCount) + "/" + theLevel.size()/2);
+
+        flowsPercent = Math.abs((totalCord * 100 / (NUM_CELLS * NUM_CELLS)));
+        if(flowsPercent > 100d){
+            flowsPercent =100d;
+        }
+        System.out.println("percent " + flowsPercent);
+
+        TextView flowView = (TextView) getRootView().findViewById(R.id.pipesPercent);
+        flowView.setText(flowsPercent + "%");
 
         return flowCount == 0 && totalCord >= NUM_CELLS * NUM_CELLS;
     }

@@ -4,18 +4,64 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/levelId"
+              android:text="Level 1"
+              android:gravity="center"
+            />
     <ru.andr.SuperFreeFlow.Board
             android:id="@+id/board"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#444444"
             />
-    <TextView android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/flowCount"
-            />
-    <Button android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Next Level"
-            android:id="@+id/nextLevelBtn" />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:paddingRight="60dp"
+                  android:ellipsize="end"
+                  android:maxLines="1"
+                  android:scrollHorizontally="true"
+                  android:id="@+id/flowCount"
+                  android:text="Flows: 0/0"
+                />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="2"
+                  android:paddingRight="60dp"
+                  android:layout_toRightOf="@+id/flowCount"
+                  android:id="@+id/moves"
+                  android:text="Moves: 0"
+                />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:paddingRight="60dp"
+                  android:layout_toRightOf="@+id/moves"
+                  android:id="@+id/flowBest"
+                  android:text="Best: 0"
+                />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:layout_toRightOf="@+id/flowBest"
+                  android:id="@+id/pipesPercent"
+                  android:text="0%"
+                />
+
+        <Button android:layout_width="fill_parent"
+                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
+                android:text="Next Level"
+                android:id="@+id/nextLevelBtn" />
+    </RelativeLayout>
+
+
 </LinearLayout>
