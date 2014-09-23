@@ -9,11 +9,18 @@ public class Coordinate {
     private int m_col;
     private int m_row;
     private int m_color;
+    private boolean m_isDot;
+
+
+    private boolean m_isConnected;
 
     Coordinate( int col, int row, int color ) {
         m_col = col;
         m_row = row;
         m_color = color;
+        m_isDot = false;
+        m_isConnected = false;
+
     }
 
     public int getCol() {
@@ -25,6 +32,25 @@ public class Coordinate {
     }
 
     public int getColor() { return m_color; }
+
+    public  void setColor(int color) {
+        this.m_color = color;
+    }
+
+    public boolean getIsDot() { return m_isDot; }
+
+    public void setDot(boolean dot) {
+        this.m_isDot = dot;
+    }
+
+    public boolean isConnected() {
+        return m_isConnected;
+    }
+
+    public void setIsConnected(boolean m_isConnected) {
+        this.m_isConnected = m_isConnected;
+    }
+
 
     @Override
     public boolean equals( Object other ) {
