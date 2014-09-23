@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
+import android.widget.TextView;
 
 
 public class PlayActivity extends Activity {
@@ -45,6 +45,10 @@ public class PlayActivity extends Activity {
             board.setLevelId(levelId);
             board.createLevel();
             board.initTextView();
+
+            TextView t = (TextView) findViewById(R.id.levelId);
+            t.setText("Level " + (levelId + 1));
+            t.setTextSize(24);
         }
     }
 }
