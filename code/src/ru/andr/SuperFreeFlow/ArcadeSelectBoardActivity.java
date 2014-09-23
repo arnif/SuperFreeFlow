@@ -43,13 +43,14 @@ public class ArcadeSelectBoardActivity extends Activity implements View.OnClickL
 
             for (Challenges mChallenge : mGlobals.mChallenges) {
                 LinearLayout row = new LinearLayout(this);
-                row.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                row.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 Button btnTag = new Button(this);
-                btnTag.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                btnTag.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 btnTag.setText(mChallenge.getPuzzleName());
                 btnTag.setId(Integer.parseInt(mChallenge.getPuzzleId()));
                 btnTag.setOnClickListener(this);
+                btnTag.setTextSize(34);
                 row.addView(btnTag);
                 layout.addView(row);
             }
