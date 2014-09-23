@@ -22,6 +22,7 @@ public class Board extends View {
     private int m_cellWidth;
     private int m_cellHeight;
     private String m_flows;
+    private int flowCount = 0;
 
     private Rect m_rect = new Rect();
     private Paint m_paintGrid  = new Paint();
@@ -67,6 +68,7 @@ public class Board extends View {
         m_paintPath.setStrokeCap( Paint.Cap.ROUND );
         m_paintPath.setStrokeJoin( Paint.Join.ROUND );
         m_paintPath.setAntiAlias( true );
+        flowCount = 0;
     }
 
     @Override
@@ -130,7 +132,6 @@ public class Board extends View {
                 }
 
             }
-
 
 
         }
@@ -394,6 +395,7 @@ public class Board extends View {
                 totalCord++;
                 if (coordinate.isConnected()) {
                     k--;
+                    flowCount++;
                 }
             }
 
