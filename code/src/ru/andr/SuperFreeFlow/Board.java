@@ -8,6 +8,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,6 +166,7 @@ public class Board extends View {
 
                         current_color = coordinate.getColor();
                         Cellpath cellpath = cellpathArrayList[theLevel.indexOf(coordinate)];
+                        cellpath.setColor(current_color);
                         cellpath.append(coordinate);
 
                     }
@@ -231,6 +233,8 @@ public class Board extends View {
 
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
 
+            boolean dontConnect = false;
+
             if (cellpathArrayList.length < 0) {
                 return true;
             }
@@ -248,18 +252,25 @@ public class Board extends View {
                             Coordinate co = new Coordinate(c, r, current_color);
 
                             for (Coordinate coordinate : theLevel) {
+                                if (coordinate.getCol() == c && coordinate.getRow() == r && coordinate.getColor() != current_color) {
+                                    dontConnect = true;
+                                }
                                 if (coordinate.getCol() == c && coordinate.getRow() == r && coordinate.getColor() == current_color) {
                                     System.out.println("ITS THERE!!!");
+                                    dontConnect = false;
                                     co.setDot(true);
                                     co.setIsConnected(true);
                                 }
                             }
 
-                            cellpathArrayList[i].append(co);
-                            cellpathArrayList[i].setColor(current_color);
+                            if (!dontConnect) {
+
+                                cellpathArrayList[i].append(co);
+                                cellpathArrayList[i].setColor(current_color);
 
 
-                            invalidate();
+                                invalidate();
+                            }
 
 
 
@@ -278,6 +289,7 @@ public class Board extends View {
             if (checkWin()) {
 
                 System.out.println("YOU WON!!!!!!");
+                Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
             }
             //save current board.
             m_cellPath.setColor(current_color);
