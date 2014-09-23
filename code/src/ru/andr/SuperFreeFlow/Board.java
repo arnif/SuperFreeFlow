@@ -3,12 +3,11 @@ package ru.andr.SuperFreeFlow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.*;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Vibrator;
 import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 
 public class Board extends View {
-
-    private Global mGlobals = Global.getInstance();
 
     private int NUM_CELLS;
     private int m_cellWidth;
@@ -97,12 +94,12 @@ public class Board extends View {
 
     @Override
     protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
-        super.onMeasure( widthMeasureSpec, heightMeasureSpec );
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width  = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
         int height = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
         int size = Math.min(width, height);
-        setMeasuredDimension( size + getPaddingLeft() + getPaddingRight(),
-                size + getPaddingTop() + getPaddingBottom() );
+        setMeasuredDimension(size + getPaddingLeft() + getPaddingRight(),
+                size + getPaddingTop() + getPaddingBottom());
     }
 
     @Override
