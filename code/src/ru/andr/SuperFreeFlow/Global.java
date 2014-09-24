@@ -12,8 +12,8 @@ public class Global {
     public List<Challenges> mChallenges;
     public List<Puzzle> mPuzzles;
     public String selectedPuzzleFlow;
-    public boolean isMuted = false;
-    public boolean isVibrate = false;
+    public boolean isMuted = true;
+    public boolean isVibrate = true;
     public ArrayList<Integer> bestMovesGlobal = new ArrayList<Integer>();
     ///
     private static Global mInstance = new Global();

@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,14 +69,9 @@ public class LevelOverviewActivity extends Activity {
 
         PuzzleAdapter mSA = new PuzzleAdapter(this);
 
-        SimpleCursorAdapter mCA;
         Cursor mCursor;
 
         mCursor = mSA.queryPuzzle();
-        String cols[] = DbHelper.TablePuzzleCols;
-        String from[] = { cols[1], cols[2], cols[3], cols[4] };
-        startManagingCursor(mCursor);
-
 
         if (mCursor.moveToFirst()) {
 
@@ -92,7 +90,6 @@ public class LevelOverviewActivity extends Activity {
             } while (mCursor.moveToNext());
 
         }
-        //mCursor.close();
 
         mGlobals.bestMovesGlobal = bestMovesArr;
 
