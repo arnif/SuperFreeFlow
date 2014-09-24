@@ -2,13 +2,11 @@ package ru.andr.SuperFreeFlow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,6 +25,7 @@ import java.util.List;
 public class LevelOverviewActivity extends Activity {
 
     private Global mGlobals = Global.getInstance();
+    private ArrayList<Integer> bestMovesArr = new ArrayList<Integer>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,8 +59,68 @@ public class LevelOverviewActivity extends Activity {
 
         String[] values = new String[size];
 
+        ArrayList<Integer> doneLevels = new ArrayList<Integer>();
+
+        for (int i = 0; i < size; i++) {
+            bestMovesArr.add(0);
+        }
+
+        PuzzleAdapter mSA = new PuzzleAdapter(this);
+
+        SimpleCursorAdapter mCA;
+        Cursor mCursor;
+
+        mCursor = mSA.queryPuzzle();
+        String cols[] = DbHelper.TablePuzzleCols;
+        String from[] = { cols[1], cols[2], cols[3], cols[4] };
+        startManagingCursor(mCursor);
+
+
+        if (mCursor.moveToFirst()) {
+
+            do {
+                int id = mCursor.getInt(0);
+                int sid = mCursor.getInt(1);
+                int boardSize = mCursor.getInt(2);
+                int bestMoves = mCursor.getInt(3);
+                String bestTime = mCursor.getString(4);
+
+                if (boardSize == Integer.parseInt(mGlobals.mPuzzles.get(0).getSize())) {
+                    doneLevels.add(sid);
+                    bestMovesArr.set(sid, bestMoves);
+                }
+
+                System.out.println("id " + id + " puzzle Id " + sid + " board size " + boardSize + " best moves " + bestMoves + " best time " + bestTime);
+            } while (mCursor.moveToNext());
+
+        }
+        //mCursor.close();
+
+        for (Integer doneLevel : doneLevels) {
+            System.out.println("level id done " + doneLevel);
+        }
+
+        for (Integer integer : bestMovesArr) {
+            System.out.println("best " + integer);
+        }
+
+        mGlobals.bestMovesGlobal = bestMovesArr;
+
         for(int i = 0; i < mGlobals.mPuzzles.size(); i++){
-            values[i] = "Level " + (i + 1);
+            if (doneLevels.contains(i)) {
+                int numberOfFlows = mGlobals.getNumberOfFlows(mGlobals.mPuzzles.get(i).getFlows());
+                System.out.println("number of flows " + numberOfFlows);
+                System.out.println("best moves " +  mGlobals.bestMovesGlobal.get(i));
+                if (mGlobals.bestMovesGlobal.get(i) == numberOfFlows) {
+                    values[i] = "★ Level " + (i + 1) + "                    Best: " + mGlobals.bestMovesGlobal.get(i);
+                } else {
+                    values[i] = "✔ Level " + (i + 1) + "                    Best: " + mGlobals.bestMovesGlobal.get(i);
+                }
+
+            } else {
+                values[i] = "Level " + (i + 1);
+            }
+
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
         lv.setAdapter(adapter);
@@ -77,6 +136,11 @@ public class LevelOverviewActivity extends Activity {
                 Intent i = new Intent(getBaseContext(), PlayActivity.class);
                 i.putExtra("puzzleFlows", mGlobals.mPuzzles.get(arg2).getFlows());
                 i.putExtra("puzzleSize", mGlobals.mPuzzles.get(arg2).getSize());
+                if (!bestMovesArr.isEmpty()) {
+                    i.putExtra("bestMoves", bestMovesArr.get(arg2));
+                } else {
+                    i.putExtra("bestMoves", 0);
+                }
                 i.putExtra("levelId", arg2);
                 startActivity(i);
 

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class Board extends View {
     private int[] colors = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA };
     private ArrayList<Coordinate> theLevel = new ArrayList<Coordinate>();
     private double flowsPercent;
+    private boolean canDraw;
 
     private Context mContext;
     private Vibrator v;
@@ -55,6 +57,7 @@ public class Board extends View {
 
     private final MediaPlayer mediaPlayerBloop = MediaPlayer.create(getContext(), R.raw.bloop);
     private final MediaPlayer mediaPlayerWinning = MediaPlayer.create(getContext(), R.raw.winning);
+    private int bestMove;
 
     private int xToCol( int x ) {
         return (x - getPaddingLeft()) / m_cellWidth;
@@ -78,17 +81,18 @@ public class Board extends View {
         mContext = context;
 
 
-        m_paintGrid.setStyle( Paint.Style.STROKE );
-        m_paintGrid.setColor( Color.GRAY );
-        m_paintPath.setStyle( Paint.Style.STROKE );
+        m_paintGrid.setStyle(Paint.Style.STROKE);
+        m_paintGrid.setColor(Color.GRAY);
+        m_paintPath.setStyle(Paint.Style.STROKE);
         m_paintPath.setColor(Color.GREEN);
         m_paintPath.setStrokeWidth(32);
-        m_paintPath.setStrokeCap( Paint.Cap.ROUND );
-        m_paintPath.setStrokeJoin( Paint.Join.ROUND );
+        m_paintPath.setStrokeCap(Paint.Cap.ROUND);
+        m_paintPath.setStrokeJoin(Paint.Join.ROUND);
         m_paintPath.setAntiAlias( true );
         flowCount = 0;
         moveCounter = 0;
         flowsPercent = 0;
+        canDraw = true;
 
         v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
     }
@@ -168,6 +172,10 @@ public class Board extends View {
             return true;
         }
 
+        if (!canDraw) {
+            return true;
+        }
+
         if ( event.getAction() == MotionEvent.ACTION_DOWN ) {
 
             for (Coordinate coordinate : theLevel) {
@@ -188,7 +196,10 @@ public class Board extends View {
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
 
             boolean dontConnect = false;
-            v.vibrate(10);
+            if (mGlobals.isVibrate) {
+                v.vibrate(10);
+            }
+
 
             if (cellpathArrayList.length < 0) {
                 return true;
@@ -216,9 +227,15 @@ public class Board extends View {
                                     co.setDot(true);
                                     co.setIsConnected(true);
 
-                                    v.vibrate(500);
+                                    if (mGlobals.isVibrate) {
+                                        v.vibrate(500);
+                                    }
 
-                                    mediaPlayerBloop.start();
+
+                                    if (mGlobals.isMuted) {
+                                        mediaPlayerBloop.start();
+                                    }
+
                                 }
                             }
                             if (!dontConnect) {
@@ -237,8 +254,15 @@ public class Board extends View {
             TextView t = (TextView) getRootView().findViewById(R.id.moves);
             t.setText("Moves: " + moveCounter);
             if (checkWin()) {
-                v.vibrate(1000);
+                if (mGlobals.isVibrate) {
+                    v.vibrate(1000);
+                }
+
                 System.out.println("YOU WON!!!!!!");
+
+                canDraw = false;
+
+                addToWinning(moveCounter, "0");
 
                 if(mGlobals.isMuted) {
 
@@ -370,9 +394,10 @@ public class Board extends View {
             flowsPercent =100d;
         }
         System.out.println("percent " + flowsPercent);
+        DecimalFormat format = new DecimalFormat("0.#");
 
         TextView flowView = (TextView) getRootView().findViewById(R.id.pipesPercent);
-        flowView.setText(flowsPercent + "%");
+        flowView.setText(format.format(flowsPercent) + "%");
 
         return flowCount == 0 && totalCord >= NUM_CELLS * NUM_CELLS;
     }
@@ -381,6 +406,9 @@ public class Board extends View {
         System.out.println(theLevel.size());
         TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
         textView.setText("Flows: 0/" + theLevel.size() /2);
+
+        TextView bestView = (TextView) getRootView().findViewById(R.id.flowBest);
+        bestView.setText("Best: " + getBestMove());
 
         Button nextLevelBtn = (Button) getRootView().findViewById(R.id.nextLevelBtn);
         nextLevelBtn.setVisibility(View.GONE);
@@ -392,5 +420,21 @@ public class Board extends View {
 
     public int getLevelId() {
         return levelId;
+    }
+
+    private void addToWinning(int bestMoves, String bestTime) {
+        if ((bestMoves < getBestMove() || getBestMove() == 0)) {
+            PuzzleAdapter puzzleAdapter = new PuzzleAdapter(mContext);
+            puzzleAdapter.insertPuzzle(getLevelId(), NUM_CELLS, bestMoves, bestTime);
+            puzzleAdapter.close();
+        }
+    }
+
+    public void setBestMove(int bestMove) {
+        this.bestMove = bestMove;
+    }
+
+    public int getBestMove() {
+        return mGlobals.bestMovesGlobal.get(levelId);
     }
 }

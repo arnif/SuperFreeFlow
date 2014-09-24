@@ -1,5 +1,6 @@
 package ru.andr.SuperFreeFlow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ public class Global {
     public String selectedPuzzleFlow;
     public boolean isMuted = false;
     public boolean isVibrate = false;
+    public ArrayList<Integer> bestMovesGlobal = new ArrayList<Integer>();
     ///
     private static Global mInstance = new Global();
 
@@ -22,4 +24,8 @@ public class Global {
     }
 
     private Global() {}
+
+    public int getNumberOfFlows(String puzzle) {
+        return puzzle.length() - puzzle.replace("(", "").length();
+    }
 }

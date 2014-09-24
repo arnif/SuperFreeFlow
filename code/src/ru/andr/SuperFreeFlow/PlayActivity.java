@@ -38,11 +38,14 @@ public class PlayActivity extends Activity {
             String puzzleFlow = extras.getString("puzzleFlows");
             int puzzleSize = Integer.parseInt(extras.getString("puzzleSize"));
             int levelId = extras.getInt("levelId");
+            int bestMove = extras.getInt("bestMoves");
+            System.out.println("best moves " + bestMove);
             System.out.println("levelId " + levelId);
             System.out.println(puzzleFlow);
             board.setBoardSize(puzzleSize);
             board.setFlow(puzzleFlow);
             board.setLevelId(levelId);
+            board.setBestMove(bestMove);
             board.createLevel();
             board.initTextView();
 

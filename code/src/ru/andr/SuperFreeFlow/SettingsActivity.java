@@ -37,4 +37,10 @@ public class SettingsActivity extends Activity {
                 break;
         }
     }
+
+    public void clearDb(View view) {
+        PuzzleAdapter puzzleAdapter = new PuzzleAdapter(this);
+        puzzleAdapter.deleteAll();
+        System.out.println("DELETE");
+    }
 }
