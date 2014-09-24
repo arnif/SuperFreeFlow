@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import org.w3c.dom.Document;
@@ -90,27 +89,16 @@ public class LevelOverviewActivity extends Activity {
                     bestMovesArr.set(sid, bestMoves);
                 }
 
-                System.out.println("id " + id + " puzzle Id " + sid + " board size " + boardSize + " best moves " + bestMoves + " best time " + bestTime);
             } while (mCursor.moveToNext());
 
         }
         //mCursor.close();
-
-        for (Integer doneLevel : doneLevels) {
-            System.out.println("level id done " + doneLevel);
-        }
-
-        for (Integer integer : bestMovesArr) {
-            System.out.println("best " + integer);
-        }
 
         mGlobals.bestMovesGlobal = bestMovesArr;
 
         for(int i = 0; i < mGlobals.mPuzzles.size(); i++){
             if (doneLevels.contains(i)) {
                 int numberOfFlows = mGlobals.getNumberOfFlows(mGlobals.mPuzzles.get(i).getFlows());
-                System.out.println("number of flows " + numberOfFlows);
-                System.out.println("best moves " +  mGlobals.bestMovesGlobal.get(i));
                 if (mGlobals.bestMovesGlobal.get(i) == numberOfFlows) {
                     values[i] = "★ Level " + (i + 1) + "                    Best: " + mGlobals.bestMovesGlobal.get(i);
                 } else {
@@ -129,10 +117,7 @@ public class LevelOverviewActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                //Toast.makeText(getBaseContext(), ""+arg2,     Toast.LENGTH_SHORT).show();
-                Log.d("DEBUG", "" + arg2);
 
-                //System.out.println(mGlobals.mPuzzles.get(arg2).getFlows());
                 Intent i = new Intent(getBaseContext(), PlayActivity.class);
                 i.putExtra("puzzleFlows", mGlobals.mPuzzles.get(arg2).getFlows());
                 i.putExtra("puzzleSize", mGlobals.mPuzzles.get(arg2).getSize());

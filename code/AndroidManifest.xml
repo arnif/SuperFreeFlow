@@ -4,7 +4,7 @@
           android:versionCode="1"
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="18"/>
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <application android:label="@string/app_name" android:icon="@drawable/test">
         <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -13,12 +13,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".PlayActivity"/>
-        <activity android:name=".ColorListActivity" android:label="Colors"/>
         <activity android:name=".ArcadeSelectBoardActivity"/>
         <activity android:name=".LevelOverviewActivity"/>
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".AboutActivity" android:label="About"/>
-        <activity android:name=".AboutActivity"/>
     </application>
     <uses-permission android:name="android.permission.VIBRATE"/>
 </manifest>

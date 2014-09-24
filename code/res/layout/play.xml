@@ -58,11 +58,25 @@
                   android:text="0%"
                 />
 
-        <Button android:layout_width="fill_parent"
+        <Button android:layout_width="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/goHomeBtn"
                 android:text="Next Level"
-                android:id="@+id/nextLevelBtn" />
+                android:id="@+id/nextLevelBtn"
+                android:onClick="goHome"
+                android:layout_alignParentRight="true"
+                />
+
+        <Button android:layout_width="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
+                android:text="Go Home"
+                android:id="@+id/goHomeBtn"
+                android:onClick="goHome"
+                />
+
+
     </RelativeLayout>
 
 

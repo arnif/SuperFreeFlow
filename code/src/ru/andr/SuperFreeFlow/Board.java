@@ -9,6 +9,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -196,7 +197,7 @@ public class Board extends View {
             //m_path.lineTo( colToX(c) + m_cellWidth / 2, rowToY(r) + m_cellHeight / 2 );
 
             boolean dontConnect = false;
-            if (mGlobals.isVibrate) {
+            if (!mGlobals.isVibrate) {
                 v.vibrate(10);
             }
 
@@ -222,17 +223,16 @@ public class Board extends View {
                                     dontConnect = true;
                                 }
                                 if (coordinate.getCol() == c && coordinate.getRow() == r && coordinate.getColor() == current_color) {
-                                    System.out.println("ITS THERE!!!");
                                     dontConnect = false;
                                     co.setDot(true);
                                     co.setIsConnected(true);
 
-                                    if (mGlobals.isVibrate) {
+                                    if (!mGlobals.isVibrate) {
                                         v.vibrate(500);
                                     }
 
 
-                                    if (mGlobals.isMuted) {
+                                    if (!mGlobals.isMuted) {
                                         mediaPlayerBloop.start();
                                     }
 
@@ -254,21 +254,23 @@ public class Board extends View {
             TextView t = (TextView) getRootView().findViewById(R.id.moves);
             t.setText("Moves: " + moveCounter);
             if (checkWin()) {
-                if (mGlobals.isVibrate) {
+                if (!mGlobals.isVibrate) {
                     v.vibrate(1000);
                 }
-
-                System.out.println("YOU WON!!!!!!");
 
                 canDraw = false;
 
                 addToWinning(moveCounter, "0");
 
-                if(mGlobals.isMuted) {
+                if(!mGlobals.isMuted) {
 
                     mediaPlayerWinning.start();
                 }
-                Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
+
+                Toast toast = Toast.makeText(getContext(), "#WINNING", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+
                 //create nextLevel button
                 final Button nextLevelBtn = (Button) getRootView().findViewById(R.id.nextLevelBtn);
                 nextLevelBtn.setVisibility(View.VISIBLE);
@@ -382,9 +384,6 @@ public class Board extends View {
             }
 
         }
-        System.out.println("k is " + flowCount);
-        System.out.println("total cord " + totalCord);
-        System.out.println(NUM_CELLS * NUM_CELLS);
 
         TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
         textView.setText("Flows: " + (theLevel.size()/2 - flowCount) + "/" + theLevel.size()/2);
@@ -393,7 +392,6 @@ public class Board extends View {
         if(flowsPercent > 100d){
             flowsPercent =100d;
         }
-        System.out.println("percent " + flowsPercent);
         DecimalFormat format = new DecimalFormat("0.#");
 
         TextView flowView = (TextView) getRootView().findViewById(R.id.pipesPercent);
@@ -403,7 +401,6 @@ public class Board extends View {
     }
 
     public void initTextView() {
-        System.out.println(theLevel.size());
         TextView textView = (TextView) getRootView().findViewById(R.id.flowCount);
         textView.setText("Flows: 0/" + theLevel.size() /2);
 
